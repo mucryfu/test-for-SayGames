@@ -532,6 +532,7 @@ df_p = df_p.groupby(['level', 'gun_name']).agg({'percentage': ['mean']}).reset_i
 # df_p.rename(columns = {'percentage':'popularity'}, inplace = True )
 # df_p = df_p.reset_index(drop=True)
 
+df_p = df_p.reset_index()
 res = []
 for i in df_p['level'].unique():
     df_buf = df_p.loc[df_p['level'] == i]
