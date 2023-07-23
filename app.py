@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import streamlit as st
 
+st.title('Helicopter Escape 3d Analytics Demo')
+
 
 with st.sidebar:
     st.markdown('[Retention of the 1 and 7 days](#retention-of-the-1-and-7-days)')
@@ -24,7 +26,6 @@ To view or hide the query code, click on the `"Show Query Code"` button :)''')
 
 # Ретенш 1 и 7 дней
 
-st.title('Helicopter Escape 3d Analytics Demo')
 st.header('Retention of the 1 and 7 days')
 st.subheader('Total')
 df_r = pd.read_csv('data/retention_count_total_users_202307221802.csv')
