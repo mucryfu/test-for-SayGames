@@ -163,7 +163,7 @@ else:
 
 st.header('Loserate by levels')
 
-df_l = pd.read_csv('data/лузрейт.csv')
+df_l = pd.read_csv('data/loserate.csv')
 df_l = df_l.loc[(df_l['level'] != 194000) & (df_l['level'] != 1940010000)]
 
 options_2 = st.multiselect(
@@ -270,7 +270,7 @@ else:
 
 st.header('The number of players who left by level')
 
-df_lu = pd.read_csv('data/отвал игроков.csv')
+df_lu = pd.read_csv('data/lose_users.csv')
 
 options_3 = st.multiselect(
     'Group by Country',
@@ -351,7 +351,7 @@ def convert_time(seconds):
 
 with left_column:
     st.subheader('Average level duration')
-    df_t = pd.read_csv('data/средняя продолж уровня.csv')
+    df_t = pd.read_csv('data/avg_dur_lev.csv')
 
     options_4 = st.multiselect(
         'Group By Country',
@@ -387,7 +387,7 @@ with left_column:
 
 with right_column:
     st.subheader('Average session duration')
-    df_s = pd.read_csv('data/средняя продолж сессии.csv')
+    df_s = pd.read_csv('data/avg_dur_sess.csv')
 
     options_5 = st.multiselect(
         'Group By Country ',
@@ -482,7 +482,7 @@ else:
 
 # Популярность пушек
 st.header('Popularity of guns')
-df_p = pd.read_csv('data/популярность пушке.csv')
+df_p = pd.read_csv('data/popul_guns.csv')
 
 options_6 = st.multiselect(
         'Group By Country    ',
