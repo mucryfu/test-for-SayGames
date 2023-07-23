@@ -518,70 +518,72 @@ if option == 'Top-5':
 if option == 'Top-10':
     a = 10
 
-df_p['country'] = df_p['country'].astype(str)
-df_p['level'] = df_p['level'].astype(int)
-df_p['gun_name'] = df_p['gun_name'].astype(str)
-df_p['users'] = df_p['users'].astype(int)
-df_p['percentage'] = df_p['percentage'].astype(float)
-df_p = df_p.loc[df_p['percentage'] != 'ADAEAFAGAIALAMAOARASATAUAWAZBABBBDBEBFBGBHBJBNBOBRBSBTBWBYBZCACDCFCGCHCICLCMCNCOCRCVCWCYCZDEDJDKDODZECEEEGEHESETFIFJFMFOFRGAGBGDGEGFGHGLGMGNGPGQGRGTGUGWGYHKHNHRHTHUIDIEILINIQISITJEJMJOJPKEKGKHKIKMKNKRKWKYKZLALBLCLKLRLSLTLULVLYMAMCMDMEMGMHMKMLMMMNMQMRMTMUMVMWMXMYMZnanNCNENGNINLNONPNRNZOMPAPEPFPGPHPKPLPRPSPTPYQARERORSRURWSASBSCSDSESGSISKSLSNSOSRSSSTSVSXSZTCTDTGTHTJTLTMTNTRTTTVTWTZUAUGUSUYUZVCVEVGVIVNVUWSXKXXYEYTZAZMZW']
+st.write(df_p)
+
+# df_p['country'] = df_p['country'].astype(str)
+# df_p['level'] = df_p['level'].astype(int)
+# df_p['gun_name'] = df_p['gun_name'].astype(str)
+# df_p['users'] = df_p['users'].astype(int)
+# df_p['percentage'] = df_p['percentage'].astype(float)
+# df_p = df_p.loc[df_p['percentage'] != 'ADAEAFAGAIALAMAOARASATAUAWAZBABBBDBEBFBGBHBJBNBOBRBSBTBWBYBZCACDCFCGCHCICLCMCNCOCRCVCWCYCZDEDJDKDODZECEEEGEHESETFIFJFMFOFRGAGBGDGEGFGHGLGMGNGPGQGRGTGUGWGYHKHNHRHTHUIDIEILINIQISITJEJMJOJPKEKGKHKIKMKNKRKWKYKZLALBLCLKLRLSLTLULVLYMAMCMDMEMGMHMKMLMMMNMQMRMTMUMVMWMXMYMZnanNCNENGNINLNONPNRNZOMPAPEPFPGPHPKPLPRPSPTPYQARERORSRURWSASBSCSDSESGSISKSLSNSOSRSSSTSVSXSZTCTDTGTHTJTLTMTNTRTTTVTWTZUAUGUSUYUZVCVEVGVIVNVUWSXKXXYEYTZAZMZW']
 
 
-df_p = df_p.groupby(['level', 'gun_name']).agg({'percentage': ['mean']}).reset_index()
+# df_p = df_p.groupby(['level', 'gun_name']).agg({'percentage': ['mean']}).reset_index()
 
-df_p = df_p.drop('users', axis=1)
-df_p.rename(columns = {'percentage':'popularity'}, inplace = True )
-df_p = df_p.reset_index()
-res = []
-for i in df_p['level'].unique():
-    df_buf = df_p.loc[df_p['level'] == i]
-    df_buf = df_buf.sort_values(by='popularity', ascending=False).reset_index(drop=True)
-    df_buf = df_buf[1:a+1]
-    res.append(df_buf)
-df = pd.concat(res)
+# df_p = df_p.drop('users', axis=1)
+# df_p.rename(columns = {'percentage':'popularity'}, inplace = True )
+# df_p = df_p.reset_index()
+# res = []
+# for i in df_p['level'].unique():
+#     df_buf = df_p.loc[df_p['level'] == i]
+#     df_buf = df_buf.sort_values(by='popularity', ascending=False).reset_index(drop=True)
+#     df_buf = df_buf[1:a+1]
+#     res.append(df_buf)
+# df = pd.concat(res)
 
-st.dataframe(df)
+# st.dataframe(df)
 
-code_6 = '''-- Создаем подзапрос gun_stats, который вычисляет количество пользователей, выбирающих каждый пистолет на каждом уровне в каждой стране
-WITH gun_stats AS (
-    SELECT
-        country, -- Выбираем страну
-        JSONExtractInt(extra, 'level_tnt') AS level, -- Извлекаем уровень из поля extra
-        JSONExtractString(extra, 'gun_name') AS gun_name, -- Извлекаем имя пистолета из поля extra
-        COUNT(DISTINCT device_id) AS users -- Считаем количество уникальных пользователей
-    FROM test.events -- Используем таблицу test.events
-    JOIN test.devices USING (device_id) -- Присоединяем таблицу test.devices по полю device_id
-    WHERE event = 'level_started' -- Отбираем только события начала уровня
-    GROUP BY country, level, gun_name -- Группируем результаты по стране, уровню и имени пистолета
-),
--- Создаем подзапрос total_stats, который вычисляет общее количество пользователей на каждом уровне в каждой стране
-total_stats AS (
-    SELECT
-        country, -- Выбираем страну
-        JSONExtractInt(extra, 'level_tnt') AS level, -- Извлекаем уровень из поля extra
-        COUNT(DISTINCT device_id) AS total_users -- Считаем общее количество уникальных пользователей
-    FROM test.events -- Используем таблицу test.events
-    JOIN test.devices USING (device_id) -- Присоединяем таблицу test.devices по полю device_id
-    WHERE event = 'level_started' -- Отбираем только события начала уровня
-    GROUP BY country, level -- Группируем результаты по стране и уровню
-)
--- Выбираем результаты из подзапросов gun_stats и total_stats и вычисляем процент пользователей, выбирающих каждый пистолет на каждом уровне в каждой стране
-SELECT
-    gun_stats.country, -- Выбираем страну из подзапроса gun_stats
-    gun_stats.level, -- Выбираем уровень из подзапроса gun_stats
-    gun_stats.gun_name, -- Выбираем имя пистолета из подзапроса gun_stats
-    gun_stats.users, -- Выбираем количество пользователей из подзапроса gun_stats
-    gun_stats.users / total_stats.total_users * 100 AS percentage -- Вычисляем процент пользователей, выбирающих данный пистолет на данном уровне в данной стране
-FROM gun_stats -- Используем результаты подзапроса gun_stats
-JOIN total_stats USING (country, level) -- Присоединяем результаты подзапроса total_stats по полям country и level
-ORDER BY country, level, percentage DESC; -- Сортируем результаты по стране, уровню и проценту в порядке убывания процента.'''
+# code_6 = '''-- Создаем подзапрос gun_stats, который вычисляет количество пользователей, выбирающих каждый пистолет на каждом уровне в каждой стране
+# WITH gun_stats AS (
+#     SELECT
+#         country, -- Выбираем страну
+#         JSONExtractInt(extra, 'level_tnt') AS level, -- Извлекаем уровень из поля extra
+#         JSONExtractString(extra, 'gun_name') AS gun_name, -- Извлекаем имя пистолета из поля extra
+#         COUNT(DISTINCT device_id) AS users -- Считаем количество уникальных пользователей
+#     FROM test.events -- Используем таблицу test.events
+#     JOIN test.devices USING (device_id) -- Присоединяем таблицу test.devices по полю device_id
+#     WHERE event = 'level_started' -- Отбираем только события начала уровня
+#     GROUP BY country, level, gun_name -- Группируем результаты по стране, уровню и имени пистолета
+# ),
+# -- Создаем подзапрос total_stats, который вычисляет общее количество пользователей на каждом уровне в каждой стране
+# total_stats AS (
+#     SELECT
+#         country, -- Выбираем страну
+#         JSONExtractInt(extra, 'level_tnt') AS level, -- Извлекаем уровень из поля extra
+#         COUNT(DISTINCT device_id) AS total_users -- Считаем общее количество уникальных пользователей
+#     FROM test.events -- Используем таблицу test.events
+#     JOIN test.devices USING (device_id) -- Присоединяем таблицу test.devices по полю device_id
+#     WHERE event = 'level_started' -- Отбираем только события начала уровня
+#     GROUP BY country, level -- Группируем результаты по стране и уровню
+# )
+# -- Выбираем результаты из подзапросов gun_stats и total_stats и вычисляем процент пользователей, выбирающих каждый пистолет на каждом уровне в каждой стране
+# SELECT
+#     gun_stats.country, -- Выбираем страну из подзапроса gun_stats
+#     gun_stats.level, -- Выбираем уровень из подзапроса gun_stats
+#     gun_stats.gun_name, -- Выбираем имя пистолета из подзапроса gun_stats
+#     gun_stats.users, -- Выбираем количество пользователей из подзапроса gun_stats
+#     gun_stats.users / total_stats.total_users * 100 AS percentage -- Вычисляем процент пользователей, выбирающих данный пистолет на данном уровне в данной стране
+# FROM gun_stats -- Используем результаты подзапроса gun_stats
+# JOIN total_stats USING (country, level) -- Присоединяем результаты подзапроса total_stats по полям country и level
+# ORDER BY country, level, percentage DESC; -- Сортируем результаты по стране, уровню и проценту в порядке убывания процента.'''
 
-toggle_6 = st.checkbox('Show Query Code      ')
+# toggle_6 = st.checkbox('Show Query Code      ')
 
-if toggle_6:
-    st.code(code_6, language="sql", line_numbers=True)
+# if toggle_6:
+#     st.code(code_6, language="sql", line_numbers=True)
 
-else:
-    st.write('')
+# else:
+#     st.write('')
 
 
 
