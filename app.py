@@ -8,7 +8,6 @@ import streamlit as st
 
 st.title('Helicopter Escape 3d Analytics Demo')
 
-
 with st.sidebar:
     st.markdown('[Retention of the 1 and 7 days](#retention-of-the-1-and-7-days)')
     st.markdown('[Loserate by levels](#loserate-by-levels)')
