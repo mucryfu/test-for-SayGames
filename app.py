@@ -529,7 +529,7 @@ df_p['percentage'] = df_p['percentage'].astype(float)
 
 df_p = df_p.groupby(['level', 'gun_name']).agg({'percentage': ['mean']}).reset_index(drop=False)
 
-df_p.rename(columns = {'percentage':'popularity'}, inplace = True )
+# df_p.rename(columns = {'percentage':'popularity'}, inplace = True )
 # df_p = df_p.reset_index(drop=True)
 
 res = []
