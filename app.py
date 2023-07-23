@@ -483,6 +483,7 @@ else:
 # Популярность пушек
 st.header('Popularity of guns')
 df_p = pd.read_csv('data/popul_guns.csv')
+st.write(df_p)
 
 options_6 = st.multiselect(
         'Group By Country    ',
