@@ -535,7 +535,7 @@ df_p = df_p.reset_index(drop=True)
 res = []
 for i in df_p['level'].unique():
     df_buf = df_p.loc[df_p['level'] == i]
-    df_buf = df_buf.sort_values(by='popularity', ascending=False).reset_index(drop=True)
+    df_buf = df_buf.sort_values(by='percentage', ascending=False).reset_index(drop=True)
     df_buf = df_buf[1:a+1]
     res.append(df_buf)
 df = pd.concat(res)
