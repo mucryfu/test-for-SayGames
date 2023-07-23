@@ -535,7 +535,9 @@ df_p = df_p.groupby(['level', 'gun_name']).agg({'percentage': ['mean']}).reset_i
 res = []
 for i in df_p['level'].unique():
     df_buf = df_p.loc[df_p['level'] == i]
-    st.dataframe(df_buf)
+    st.write(df_buf.columns)
+    st.write(df_buf.index)
+
 #     df_buf = df_buf.sort_values(by='popularity', ascending=False).reset_index(drop=True)
 #     df_buf = df_buf[1:a+1]
 #     res.append(df_buf)
