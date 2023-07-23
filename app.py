@@ -577,7 +577,7 @@ FROM gun_stats -- Используем результаты подзапроса
 JOIN total_stats USING (country, level) -- Присоединяем результаты подзапроса total_stats по полям country и level
 ORDER BY country, level, percentage DESC; -- Сортируем результаты по стране, уровню и проценту в порядке убывания процента.'''
 
-toggle_6 = st.checkbox('Show Query Code      ')
+toggle_6 = st.checkbox('Show Query Code     ')
 
 if toggle_6:
     st.code(code_6, language="sql", line_numbers=True)
