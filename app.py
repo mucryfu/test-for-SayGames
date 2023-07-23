@@ -483,7 +483,6 @@ else:
 # Популярность пушек
 st.header('Popularity of guns')
 df_p = pd.read_csv('data/popul_guns.csv')
-st.write(df_p)
 
 options_6 = st.multiselect(
         'Group By Country    ',
@@ -504,8 +503,8 @@ if (len(options_6) == 1) & (options_6[0] == 'all'):
 else:
     df_p = df_p.loc[df_p['country'].isin(options_6)]
 
-# df_p = df_p.loc[(df_p['level'] >= level_min_3) & (df_p['level'] <= level_max_3)]
-
+df_p = df_p.loc[(df_p['level'] >= level_min_3) & (df_p['level'] <= level_max_3)]
+st.write(df_p)
 option = st.selectbox(
     'Rating type',
     ('Top-1', 'Top-3', 'Top-5', 'Top-10'))
@@ -519,7 +518,7 @@ if option == 'Top-5':
 if option == 'Top-10':
     a = 10
 
-st.write(df_p)
+# st.write(df_p)
 
 # df_p['country'] = df_p['country'].astype(str)
 # df_p['level'] = df_p['level'].astype(int)
