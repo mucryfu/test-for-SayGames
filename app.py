@@ -504,7 +504,7 @@ else:
     df_p = df_p.loc[df_p['country'].isin(options_6)]
 
 df_p = df_p.loc[(df_p['level'] >= level_min_3) & (df_p['level'] <= level_max_3)]
-st.write(df_p)
+
 option = st.selectbox(
     'Rating type',
     ('Top-1', 'Top-3', 'Top-5', 'Top-10'))
@@ -518,19 +518,20 @@ if option == 'Top-5':
 if option == 'Top-10':
     a = 10
 
-# st.write(df_p)
-
-# df_p['country'] = df_p['country'].astype(str)
-# df_p['level'] = df_p['level'].astype(int)
-# df_p['gun_name'] = df_p['gun_name'].astype(str)
-# df_p['users'] = df_p['users'].astype(int)
-# df_p['percentage'] = df_p['percentage'].astype(float)
-# df_p = df_p.loc[df_p['percentage'] != 'ADAEAFAGAIALAMAOARASATAUAWAZBABBBDBEBFBGBHBJBNBOBRBSBTBWBYBZCACDCFCGCHCICLCMCNCOCRCVCWCYCZDEDJDKDODZECEEEGEHESETFIFJFMFOFRGAGBGDGEGFGHGLGMGNGPGQGRGTGUGWGYHKHNHRHTHUIDIEILINIQISITJEJMJOJPKEKGKHKIKMKNKRKWKYKZLALBLCLKLRLSLTLULVLYMAMCMDMEMGMHMKMLMMMNMQMRMTMUMVMWMXMYMZnanNCNENGNINLNONPNRNZOMPAPEPFPGPHPKPLPRPSPTPYQARERORSRURWSASBSCSDSESGSISKSLSNSOSRSSSTSVSXSZTCTDTGTHTJTLTMTNTRTTTVTWTZUAUGUSUYUZVCVEVGVIVNVUWSXKXXYEYTZAZMZW']
 
 
-# df_p = df_p.groupby(['level', 'gun_name']).agg({'percentage': ['mean']}).reset_index()
+df_p['country'] = df_p['country'].astype(str)
+df_p['level'] = df_p['level'].astype(int)
+df_p['gun_name'] = df_p['gun_name'].astype(str)
+df_p['users'] = df_p['users'].astype(int)
+df_p['percentage'] = df_p['percentage'].astype(float)
 
-# df_p = df_p.drop('users', axis=1)
+
+df_p = df_p.groupby(['level', 'gun_name']).agg({'percentage': ['mean']}).reset_index()
+
+df_p = df_p.drop('users', axis=1)
+
+st.write(df_p)
 # df_p.rename(columns = {'percentage':'popularity'}, inplace = True )
 # df_p = df_p.reset_index()
 # res = []
