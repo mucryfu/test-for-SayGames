@@ -522,7 +522,7 @@ if option == 'Top-10':
 
 df_p['country'] = df_p['country'].astype(str)
 df_p['level'] = df_p['level'].astype(int)
-# df_p['gun_name'] = df_p['gun_name'].astype(str)
+df_p['gun_name'] = df_p['gun_name'].astype(str)
 # df_p['users'] = df_p['users'].astype(int)
 # df_p['percentage'] = df_p['percentage'].astype(float)
 
