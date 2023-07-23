@@ -531,17 +531,16 @@ df_p = df_p.groupby(['level', 'gun_name']).agg({'percentage': ['mean']}).reset_i
 
 df_p.rename(columns = {'percentage':'popularity'}, inplace = True )
 # df_p = df_p.reset_index(drop=True)
-st.write(df_p)
 
-# res = []
-# for i in df_p['level'].unique():
-#     df_buf = df_p.loc[df_p['level'] == i]
-#     df_buf = df_buf.sort_values(by='percentage', ascending=False).reset_index(drop=True)
-#     df_buf = df_buf[1:a+1]
-#     res.append(df_buf)
-# df = pd.concat(res)
+res = []
+for i in df_p['level'].unique():
+    df_buf = df_p.loc[df_p['level'] == i]
+    df_buf = df_buf.sort_values(by='popularity', ascending=False).reset_index(drop=True)
+    df_buf = df_buf[1:a+1]
+    res.append(df_buf)
+df = pd.concat(res)
 
-# st.dataframe(df)
+st.dataframe(df)
 
 # code_6 = '''-- Создаем подзапрос gun_stats, который вычисляет количество пользователей, выбирающих каждый пистолет на каждом уровне в каждой стране
 # WITH gun_stats AS (
