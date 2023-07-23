@@ -375,8 +375,8 @@ with left_column:
         df_t = df_t.reset_index()
         df_t['formatted_time'] = df_t['avg_duration'].apply(convert_time)
         df_t.rename(columns = {'formatted_time':' duration_time'}, inplace = True )
-        df_t = df_t[['level', 'duration_time']]
         df_t = df_t.drop('avg_duration', axis=1)
+        df_t = df_t.drop('country', axis=1)
     else:
         df_t = df_t.loc[df_t['country'].isin(options_4)]
         df_t = df_t.groupby(['country', 'level']).sum()
@@ -413,7 +413,7 @@ with right_column:
         df_s['formatted_time'] = df_s['avg_session_duration'].apply(convert_time)
         df_s.rename(columns = {'formatted_time':' duration_time'}, inplace = True )
         df_s = df_s.drop('avg_session_duration', axis=1)
-        df_s = df_s[['session_rank', 'duration_time']]
+        df_s = df_s.drop('country', axis=1)
     else:
         df_s = df_s.loc[df_s['country'].isin(options_4)]
         df_s = df_s.groupby(['country', 'session_rank']).sum()
