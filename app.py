@@ -503,7 +503,7 @@ if (len(options_6) == 1) & (options_6[0] == 'all'):
 else:
     df_p = df_p.loc[df_p['country'].isin(options_6)]
 
-df_p = df_p.loc[(df_p['level'] >= level_min_3) & (df_p['level'] <= level_max_3)]
+# df_p = df_p.loc[(df_p['level'] >= level_min_3) & (df_p['level'] <= level_max_3)]
 
 option = st.selectbox(
     'Rating type',
